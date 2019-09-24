@@ -22,7 +22,6 @@ wheels/
 share/
 man/
 include/
-Scripts/
 tcl/
 venv/
 venv3/

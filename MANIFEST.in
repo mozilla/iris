@@ -1,0 +1,9 @@
+include moziris/control_center/assets/*
+include moziris/control_center/assets/images/*
+include moziris/control_center/assets/static/*
+include moziris/control_center/assets/static/css/*
+include moziris/control_center/assets/static/js/*
+include moziris/control_center/assets/static/media/*
+
+prune tests
+prune targets

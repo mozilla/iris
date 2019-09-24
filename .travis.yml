@@ -1,24 +1,10 @@
-
-dist: xenial
+sudo: required
 language: python
 python: '3.7.3'
 
-
-# Blocklist
-branches:
-  except:
-  - some_branch_name
-
-
-# Safelist
-branches:
-  only:
-  - master
-  - dev
-
 # Bootstrap install
 install:
-  - 'bootstrap/bootstrap.sh'
+  - 'bootstrap/linux_bootstrap.sh'
   - 'pipenv install'
 
 # Virtual display for headless run at 1920x1080 32 bit resolution
@@ -32,6 +18,11 @@ with_content_shell: true
 # Job sections
 jobs:
   include:
+    - stage: Lint
+      before_install: skip
+      before_script: skip
+      install: pip install tox
+      script: tox -e flake8
     - stage: Ubuntu 16.04 Image search and mouse movement tests
       os: linux
       dist: xenial

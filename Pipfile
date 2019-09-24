@@ -1,41 +1,43 @@
 [[source]]
+name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
-name = "pypi"
 
 [packages]
-iris = {path = ".",editable = true}
-pyautogui = "==0.9.41"
-coloredlogs = "==10.0"
-python-dateutil = "==2.8.0"
-opencv-python = "==4.0.0.21" #"==3.4.3.18"
-pytesseract = "==0.2.6"
-numpy = "==1.16.1"
-image = "==1.5.27"
-pyperclip = "==1.7.0"
-packaging = "==19.0"
-gitpython = "==2.1.11"
-pynput = "==1.4.2"
-mozinstall = "==2.0.0"
-mozdownload = "==1.26"
-mozversion = "==2.1.0"
-mozinfo = "==1.0.0"
-mozlog = "==4.2.0"
-mozrunner = "==7.4.0"
-mss = "==4.0.1"
-more-itertools = "==5.0.0"
-pytest = "==5.0.1"
-pygithub = "==1.43.8"
 bugzilla = "==1.0.0"
-psutil = "==5.6.3"
-funcy = "==1.11"
+coloredlogs = "==10.0"
+image = "==1.5.27"
+iris = {path = ".",editable = true}
 flaky = "==3.6.1"
+funcy = "==1.13"
+gitpython = "==3.0.2"
+more-itertools = "==7.2.0"
+mozdownload = "==1.26"
+mozinfo = "==1.1.0"
+mozinstall = "==2.0.0"
+mozlog = "==4.2.0"
+mozrunner = "==7.5.1"
+mozversion = "==2.1.0"
+mss = "==4.0.3"
+numpy = "==1.17.2"
+opencv-python = "==4.1.1.26"
+packaging = "==19.1"
+psutil = "==5.6.3"
+pre-commit = "==1.18.3"
+pyautogui = "==0.9.47"
+pygithub = "==1.43.8"
+pynput = "==1.4.2"
+pyperclip = "==1.7.0"
+pytesseract = "==0.3.0"
+pytest = "==5.1.2"
+python-dateutil = "==2.8.0"
+
 # Platform dependencies
 xlib = {platform_system = "== 'Linux'",version = "==0.21"}
 
 [dev-packages]
-pylint = "*"
 pep8 = "*"
+pylint = "*"
 
 [requires]
 python_version = "3.7"
