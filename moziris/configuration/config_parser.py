@@ -7,11 +7,10 @@ import logging
 import os.path
 from configparser import ConfigParser
 
-from moziris.util.path_manager import PathManager
+from moziris.api.settings import Settings
 
 logger = logging.getLogger(__name__)
-
-config_file = os.path.join(PathManager.get_module_dir(), "config.ini")
+config_file = os.path.join(Settings.code_root, "config.ini")
 config = ConfigParser()
 
 
