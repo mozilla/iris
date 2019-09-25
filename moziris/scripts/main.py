@@ -34,7 +34,7 @@ from moziris.util.system import (
     init_tesseract_path,
     reset_terminal_encoding,
 )
-from moziris.util.target_loader import collect_tests, get_target
+from moziris.util.target_loader import collect_tests, get_target, path_warning
 
 logger = logging.getLogger(__name__)
 
@@ -49,7 +49,11 @@ def main():
         pytest_args = None
         settings = None
         if show_control_center():
-            init_control_center()
+            try:
+                init_control_center()
+            except FileNotFoundError:
+                path_warning('Control Center assets')
+                exit_iris('', status=1)
             user_result = launch_control_center()
             logger.debug(user_result)
             if user_result != "cancel":
