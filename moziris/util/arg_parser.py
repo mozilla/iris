@@ -16,8 +16,6 @@ iris_args = None
 
 def get_core_args():
     global iris_args
-    home = os.path.expanduser("~")
-
     log_level_strings = ["CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG"]
 
     def log_level_string_to_int(log_level_string):
@@ -34,10 +32,6 @@ def get_core_args():
         return log_level_int
 
     parser = argparse.ArgumentParser(description="Iris core arguments", prog="iris")
-    repo_root = Settings.code_root
-    repo_name = os.path.basename(repo_root)
-    logger.debug("Repo root: %s" % repo_root)
-    logger.debug("Repo name: %s" % repo_name)
 
     parser.add_argument(
         "target", nargs="?", action="store", type=str, help="Target name"
@@ -126,7 +120,7 @@ def get_core_args():
         help="Path to working directory",
         type=os.path.abspath,
         action="store",
-        default="%s/.%s" % (home, repo_name),
+        default=get_working_dir(),
     )
     parser.add_argument(
         "-x",
@@ -155,6 +149,15 @@ def get_core_args():
         exit(1)
 
     return iris_args
+
+
+def get_working_dir():
+    home = os.path.expanduser("~")
+    repo_root = Settings.code_root
+    repo_name = os.path.basename(repo_root)
+    logger.debug("Repo root: %s" % repo_root)
+    logger.debug("Repo name: %s" % repo_name)
+    return "%s/.%s" % (home, repo_name)
 
 
 def set_core_arg(arg, value):

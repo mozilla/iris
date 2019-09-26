@@ -10,13 +10,16 @@ from configparser import ConfigParser
 from moziris.api.settings import Settings
 
 logger = logging.getLogger(__name__)
-config_file = os.path.join(Settings.code_root, "config.ini")
-config = ConfigParser()
 
 
 def get_config_section(section):
     """Returns all properties of a section as a dict or None if section does not exist."""
-    if os.path.isfile(config_file):
+    config_file = os.path.join(Settings.code_root, "config.ini")
+    logger.debug("Config file location: %s" % config_file)
+    file_exists = os.path.isfile(config_file)
+    logger.debug("Config file exists: %s" % file_exists)
+    config = ConfigParser()
+    if file_exists:
         try:
             config.read(config_file)
             if config.has_section(section):

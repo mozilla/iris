@@ -62,7 +62,7 @@ def create_target_json():
                 logger.error("Problems importing module '%s':\n%s" % (item, e))
 
         target_json = {"targets": targets}
-        target_json_file = os.path.join(args.workdir, "data", "targets.json")
+        target_json_file = os.path.join(PathManager.get_working_dir(), "data", "targets.json")
         with open(target_json_file, "w") as f:
             json.dump(target_json, f, sort_keys=True, indent=True)
 
@@ -94,7 +94,7 @@ def update_run_index(app, finished=False):
             "total": "-1",
         }
 
-    run_file = os.path.join(args.workdir, "data", "runs.json")
+    run_file = os.path.join(PathManager.get_working_dir(), "data", "runs.json")
 
     if os.path.exists(run_file):
         logger.debug("Updating run file: %s" % run_file)
@@ -360,7 +360,7 @@ def use_cached_target_file():
     cache_time = 60 * 15
 
     result = False
-    target_json_file = os.path.join(args.workdir, "data", "targets.json")
+    target_json_file = os.path.join(PathManager.get_working_dir(), "data", "targets.json")
     if os.path.exists(target_json_file):
         file_modified_time = int(os.path.getmtime(target_json_file))
         logger.debug("Target file created: %s" % file_modified_time)
