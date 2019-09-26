@@ -5,6 +5,7 @@
 import inspect
 import logging
 import os
+import subprocess
 import sys
 import tempfile
 
@@ -123,10 +124,7 @@ class _Settings:
         self.virtual_keyboard = False
         self.debug_image = False
         self.debug_image_path = _create_tempdir()
-        if os.environ.get("IRIS_CODE_ROOT") is not None:
-            self._code_root = os.environ.get("IRIS_CODE_ROOT")
-        else:
-            self._code_root = package_root
+        self._code_root = get_active_root()
         sys.path.append(self._code_root)
 
     @property
@@ -223,6 +221,13 @@ class _Settings:
     def set_code_root_from_caller():
         caller = inspect.stack()[1][1]
         Settings.code_root = os.path.split(caller)[0]
+
+
+def get_active_root():
+    cmd = subprocess.run(
+        "pipenv --where", shell=True, stdout=subprocess.PIPE, timeout=5
+    )
+    return cmd.stdout.decode("utf-8").strip()
 
 
 Settings = _Settings()
