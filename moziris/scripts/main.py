@@ -22,7 +22,7 @@ from moziris.api.os_helpers import OSHelper
 from moziris.api.settings import Settings
 from moziris.configuration.config_parser import validate_config_ini
 from moziris.control_center.commands import delete
-from moziris.util.arg_parser import get_core_args, set_core_arg, get_working_dir
+from moziris.util.arg_parser import get_core_args, set_core_arg
 from moziris.util.cleanup import *
 from moziris.util.json_utils import create_target_json
 from moziris.util.local_web_server import LocalWebServer
@@ -129,7 +129,7 @@ def initialize_platform(args):
     init()
     fix_terminal_encoding()
     migrate_data()
-    PathManager.create_working_directory(args.workdir)
+    PathManager.create_working_directory()
     PathManager.create_run_directory()
 
 
@@ -178,9 +178,9 @@ def init_control_center():
     )
     logger.debug(
         "Copying Control Center assets from %s to %s"
-        % (cc_assets_path, get_working_dir())
+        % (cc_assets_path, PathManager.get_working_dir())
     )
-    copy_tree(cc_assets_path, get_working_dir())
+    copy_tree(cc_assets_path, PathManager.get_working_dir())
     if os.path.exists(os.path.join(PathManager.get_module_dir(), "targets")):
         logger.debug("Looking for CC files in module directory.")
         targets_dir = os.path.join(PathManager.get_module_dir(), "targets")
@@ -193,7 +193,7 @@ def init_control_center():
         [dirs.remove(d) for d in list(dirs) if d in exclude_dirs]
         for target in dirs:
             src = os.path.join(targets_dir, target, "icon.png")
-            dest = os.path.join(get_working_dir(), "images", "%s.png" % target)
+            dest = os.path.join(PathManager.get_working_dir(), "images", "%s.png" % target)
             try:
                 shutil.copyfile(src, dest)
             except FileNotFoundError:
@@ -203,7 +203,7 @@ def init_control_center():
 
 
 def launch_control_center():
-    profile_path = os.path.join(get_working_dir(), "cc_profile")
+    profile_path = os.path.join(PathManager.get_working_dir(), "cc_profile")
     fx_path = PathManager.get_local_firefox_path()
     if fx_path is None:
         logger.error("Can't find local Firefox installation, aborting Iris run.")
@@ -232,8 +232,8 @@ def launch_control_center():
             binary=fx_path, profile=profile, cmdargs=args, process_args=process_args
         )
         fx_runner.start()
-    logger.debug("Launching web server for directory %s" % get_working_dir())
-    server = LocalWebServer(get_working_dir(), get_core_args().port)
+    logger.debug("Launching web server for directory %s" % PathManager.get_working_dir())
+    server = LocalWebServer(PathManager.get_working_dir(), get_core_args().port)
     server.stop()
     time.sleep(Settings.DEFAULT_UI_DELAY)
 

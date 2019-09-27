@@ -14,7 +14,7 @@ import git
 
 from moziris.api.os_helpers import OSHelper
 from moziris.api.settings import Settings
-from moziris.util.arg_parser import get_core_args, get_working_dir
+from moziris.util.arg_parser import get_core_args
 
 logger = logging.getLogger(__name__)
 
@@ -70,7 +70,7 @@ class PathManager:
     def get_current_run_dir():
         """Returns the directory inside the working directory of the active run."""
         PathManager.create_run_directory()
-        return os.path.join(get_working_dir(), "runs", PathManager.get_run_id())
+        return os.path.join(PathManager.get_working_dir(), "runs", PathManager.get_run_id())
 
     @staticmethod
     def get_log_file_path():
@@ -121,14 +121,15 @@ class PathManager:
     @staticmethod
     def delete_run_directory():
         """Removes run directory."""
-        master_run_directory = os.path.join(get_working_dir(), "runs")
+        master_run_directory = os.path.join(PathManager.get_working_dir(), "runs")
         run_directory = os.path.join(master_run_directory, PathManager.get_run_id())
         if os.path.exists(run_directory):
             shutil.rmtree(run_directory, ignore_errors=True)
 
     @staticmethod
-    def create_working_directory(path):
+    def create_working_directory():
         """Creates working directory."""
+        path = get_core_args().workdir
         if not os.path.exists(path):
             logger.debug("Creating working directory %s" % path)
             os.makedirs(path)
@@ -150,7 +151,7 @@ class PathManager:
 
     @staticmethod
     def create_runs_file():
-        run_file = os.path.join(get_working_dir(), "data", "runs.json")
+        run_file = os.path.join(PathManager.get_working_dir(), "data", "runs.json")
         if not os.path.exists(run_file):
             run_file_data = {"runs": []}
             with open(run_file, "w") as f:
@@ -160,13 +161,13 @@ class PathManager:
     @staticmethod
     def get_working_dir():
         """Returns the path to the root of the directory where local data is stored."""
-        PathManager.create_working_directory(get_working_dir())
-        return get_working_dir()
+        PathManager.create_working_directory()
+        return get_core_args().workdir
 
     @staticmethod
     def create_run_directory():
         """Creates run directory."""
-        PathManager.create_working_directory(get_working_dir())
+        PathManager.create_working_directory()
         master_run_directory = os.path.join(PathManager.get_working_dir(), "runs")
         if not os.path.exists(master_run_directory):
             os.mkdir(master_run_directory)
