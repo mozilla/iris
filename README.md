@@ -1,6 +1,13 @@
 # iris-core
 
+![Travis (.com)](https://img.shields.io/travis/com/mozilla/iris)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/moziris)
+![GitHub](https://img.shields.io/github/license/mozilla/iris)
+![GitHub repo size](https://img.shields.io/github/repo-size/mozilla/iris)
+![GitHub issues](https://img.shields.io/github/issues/mozilla/iris)
+
 Iris is a visual test suite which makes asserts based on pattern matching in images.
+
 
 ## Installation
 
@@ -10,7 +17,7 @@ Iris is a visual test suite which makes asserts based on pattern matching in ima
 
  - Python 3
  - git
- - [Firefox](https://www.mozilla.org/en-US/firefox/new/) if you don't already have it.
+ - [Firefox](https://www.mozilla.org/en-US/firefox/new/)
 
 #### Setup
 
