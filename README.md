@@ -70,9 +70,8 @@ iris firefox
  - Python 3
  - git
  - [Firefox](https://www.mozilla.org/en-US/firefox/new/)
-
-- [Follow instructions below for disabling Keyring](https://github.com/mozilla/iris_firefox/wiki/Setup#disable-system-keyring)
-- Open Settings > Displays > "Scale for Menu and Title bars:" and verify that it is set to 1.
+ - [Follow instructions below for disabling Keyring](https://github.com/mozilla/iris_firefox/wiki/Setup#disable-system-keyring)
+ - Open Settings > Displays > "Scale for Menu and Title bars:" and verify that it is set to 1.
 
 #### Setup
 ```
