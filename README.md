@@ -6,7 +6,7 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/mozilla/iris)
 ![GitHub issues](https://img.shields.io/github/issues/mozilla/iris)
 
-Iris is a tool that uses on-screen pattern and text matching, while manipulating a machine's mouse and keyboard, to test visual and interactive states of an application.
+Mozilla Iris is a tool that uses on-screen pattern and text matching, while manipulating a machine's mouse and keyboard, to test visual and interactive states of an application.
 For more detailed information and troubleshooting tips, please [view our wiki](https://github.com/mozilla/iris/wiki).
 
 ## Installation
@@ -112,7 +112,7 @@ A complete list of command-line options is available when invoking the `-h` flag
 For more detailed examples, see the [project wiki](https://github.com/mozilla/iris/wiki/Command-line-examples).
 
 
-## Contributing [WIP]
+## Contributing
 
 See our [project wiki](https://github.com/mozilla/iris/wiki/Developer-Workflow) for more information on contributing to Iris.
 
