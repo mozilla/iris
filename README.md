@@ -1,4 +1,4 @@
-# iris-core
+# moziris
 
 ![Travis (.com)](https://img.shields.io/travis/com/mozilla/iris)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/moziris)
@@ -6,7 +6,7 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/mozilla/iris)
 ![GitHub issues](https://img.shields.io/github/issues/mozilla/iris)
 
-Iris is a visual test suite which makes asserts based on pattern matching in images.
+Iris is a tool that uses on-screen pattern and text matching, while manipulating a machine's mouse and keyboard, to test visual and interactive states of an application.
 For more detailed information and troubleshooting tips, please [view our wiki](https://github.com/mozilla/iris/wiki).
 
 ## Installation
@@ -62,7 +62,7 @@ pipenv shell
 iris sample
 ```
 
-### Ubuntu Linux instructions:
+### Ubuntu Linux 16.04 instructions:
 
 #### System Requirements
 
@@ -86,19 +86,45 @@ iris sample
 
 ## Usage
 
-`# to do`
+The Iris project is meant to be used with your own "target" and tests. A target is basically a pytest plugin invoked by Iris, which will then gather data during the run to present in a web-based interface known as the Iris Control Center.
+
+Iris is available as a PyPI library named `moziris`. It requires system dependencies that are installed using the bootstrap script from this repo.
+
+Once your system is configured, and the setup instructions have been followed, you can test some of Iris' functionality.
+
+To invoke the "sample" target - which is just a placeholder project for demonstration purposes:
+```
+iris sample
+```
+
+To open the Control Center, which is the web-based UI for managing local Iris runs:
+```
+iris -k
+```
+
+To verify that the Iris API itself exists, without running tests, this command will move your mouse on screen:
+```
+api-test
+```
+
+A complete list of command-line options is available when invoking the `-h` flag.
+
+For more detailed examples, see the [project wiki](https://github.com/mozilla/iris/wiki/Command-line-examples).
+
 
 ## Contributing [WIP]
 
+See our [project wiki](https://github.com/mozilla/iris/wiki/Developer-Workflow) for more information on contributing to Iris.
+
 ### Enable Pre-Commit Hooks
 
-In version [x.x.x], pre-commit hooks were added to iris for flake8 linting and [black code formatting](https://pypi.org/project/black/). These hooks will run  black and flake8 *prior to* committing your changes.
+Iris has pre-commit hooks for flake8 linting and [black code formatting](https://pypi.org/project/black/). These hooks will run black and flake8 *prior to* committing your changes.
 
 This means that black will format all python files in-place, and flake8 will lint your code for any errors.
 If there are flake8 violations, *your changes will not be committed*. The list of ignored rules is documented in the
 `tox.ini` file. There should be a compelling reason to do so before adding to this list.
 
-*If you already have iris installed on your system prior to this patch, you will need to run `pipenv install` again to install the pre-commit module.*
+*If you already have Iris installed on your system prior to this patch, you will need to run `pipenv install` again to install the pre-commit module.*
 
 ```
 # Install dependencies, including pre-commit
