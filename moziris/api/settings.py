@@ -74,6 +74,7 @@ class _Settings:
     DEFAULT_UI_DELAY_SHORT = 0.5
     DEFAULT_UI_DELAY_LONG = 2.5
     DEFAULT_SYSTEM_DELAY = 5
+    PACKAGE_ROOT = os.path.realpath(os.path.split(__file__)[0] + "/../..")
 
     def __init__(
         self,
@@ -205,10 +206,6 @@ class _Settings:
     @virtual_keyboard.setter
     def virtual_keyboard(self, value):
         self._virtual_keyboard = value
-
-    @property
-    def package_root(self):
-        return os.path.realpath(os.path.split(__file__)[0] + "/../..")
 
     @property
     def code_root(self):
