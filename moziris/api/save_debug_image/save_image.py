@@ -72,10 +72,16 @@ def save_debug_image(needle, haystack, locations):
         d_image.paste(gray_img)
         d_image.paste(search_for_image, (0, v_align_pos))
         d_array = np.array(d_image)
+
+        #  Python: cv2.getTextSize(text, fontFace, fontScale, thickness) → retval, baseLine¶
+        text_size = cv2.getTextSize(not_found_txt, cv2.FONT_HERSHEY_TRIPLEX, 0.5, 1)
+        logger.error(text_size)
+
         cv2.rectangle(
             d_array,
             (w, v_align_pos),
-            (haystack.width, v_align_pos + h),
+            # (haystack.width, v_align_pos + h),
+            (haystack.width, v_align_pos + 400),
             (255, 255, 255),
             cv2.FILLED,
         )
