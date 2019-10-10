@@ -123,7 +123,7 @@ class _Settings:
         self.virtual_keyboard = False
         self.debug_image = False
         self.debug_image_path = _create_tempdir()
-        self._code_root = get_active_root()
+        self._code_root = trim_path(get_active_root())
         sys.path.append(self._code_root)
 
     @property
@@ -240,6 +240,11 @@ def get_active_root():
             return path
         else:
             return os.path.realpath(os.path.dirname(__file__) + "/../..")
+
+
+def trim_path(path):
+    if path[-1] == "/" or path[-1] == "\\":
+        return path[:-1]
 
 
 Settings = _Settings()
