@@ -6,7 +6,7 @@ import platform
 from setuptools import setup, find_packages
 
 PACKAGE_NAME = "moziris"
-PACKAGE_VERSION = "0.5"
+PACKAGE_VERSION = "0.6"
 
 INSTALL_REQUIRES = [
     "bugzilla==1.0.0",

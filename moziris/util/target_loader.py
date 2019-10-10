@@ -185,8 +185,8 @@ def path_warning(path):
     logger.critical("This can happen when Iris can't find your code root.")
     logger.critical("Try setting these environment variables:")
     if OSHelper.is_windows():
-        logger.critical("\tsetx IRIS_CODE_ROOT %CD%")
-        logger.critical("\tsetx PYTHONPATH %CD%")
+        logger.critical("\tset IRIS_CODE_ROOT=%CD%")
+        logger.critical("\tset PYTHONPATH=%CD%")
         logger.critical("\nYou must restart your terminal for this to take effect.\n")
     else:
         logger.critical("\texport IRIS_CODE_ROOT=$PWD")

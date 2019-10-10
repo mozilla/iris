@@ -210,7 +210,7 @@ def convert_test_list(test_list, only_failures=False):
             logger.error("Error parsing test list.")
             logger.error("Try resetting your PYTHONPATH before your next run, i.e.:")
             if OSHelper.get_os().value == "win":
-                logger.error("\tsetx PYTHONPATH %CD%")
+                logger.error("\tset PYTHONPATH=%CD%")
             else:
                 logger.error("\texport PYTHONPATH=$PWD")
             return tests

@@ -97,7 +97,6 @@ class _Settings:
         mouse_scroll_step=DEFAULT_MOUSE_SCROLL_STEP,
         key_shortcut_delay=DEFAULT_KEY_SHORTCUT_DELAY,
         site_load_timeout=DEFAULT_SITE_LOAD_TIMEOUT,
-        package_root=PACKAGE_ROOT,
     ):
 
         self.wait_scan_rate = wait_scan_rate
@@ -224,10 +223,23 @@ class _Settings:
 
 
 def get_active_root():
-    cmd = subprocess.run(
-        "pipenv --where", shell=True, stdout=subprocess.PIPE, timeout=5
-    )
-    return cmd.stdout.decode("utf-8").strip()
+    """
+    Determine location of targets/tests dynamically, using this priority:
+    1. Set by user via environment variable.
+    2. Using the Pipfile to locate active project.
+    3. If neither of the above, default to package root.
+    """
+    try:
+        return os.environ["IRIS_CODE_ROOT"]
+    except KeyError:
+        cmd = subprocess.run(
+            "pipenv --where", shell=True, stdout=subprocess.PIPE, timeout=5
+        )
+        path = cmd.stdout.decode("utf-8").strip()
+        if os.path.exists(path):
+            return path
+        else:
+            return os.path.realpath(os.path.dirname(__file__) + "/../..")
 
 
 Settings = _Settings()
