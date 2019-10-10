@@ -10,6 +10,7 @@ import sys
 import tempfile
 
 from moziris.api.enums import Color
+from moziris.api.os_helpers import OSHelper
 
 logger = logging.getLogger(__name__)
 
@@ -246,6 +247,7 @@ def get_active_root():
     if os.path.exists(path):
         return path
     else:
+        path_warning()
         return os.path.realpath(os.path.dirname(__file__) + "/../..")
 
 
@@ -254,6 +256,18 @@ def trim_path(path):
         return path[:-1]
     else:
         return path
+
+
+def path_warning():
+    logger.critical("Problems were encountered finding the project code root.")
+    logger.critical("If they persist, try setting these environment variables:")
+    if OSHelper.is_windows():
+        logger.critical("\tset IRIS_CODE_ROOT=%CD%")
+        logger.critical("\tset PYTHONPATH=%CD%")
+        logger.critical("\nYou must restart your terminal for this to take effect.\n")
+    else:
+        logger.critical("\texport IRIS_CODE_ROOT=$PWD")
+        logger.critical("\texport PYTHONPATH=$PWD")
 
 
 Settings = _Settings()
