@@ -14,7 +14,6 @@ import pytest
 from mozprofile import Profile as MozProfile
 from mozrunner import FirefoxRunner
 
-
 from moziris.api.keyboard.key import KeyModifier
 from moziris.api.keyboard.keyboard import type
 from moziris.api.keyboard.keyboard_util import check_keyboard_state
@@ -52,8 +51,8 @@ def main():
             try:
                 init_control_center()
             except FileNotFoundError:
-                path_warning('Control Center assets')
-                exit_iris('', status=1)
+                path_warning("Control Center assets")
+                exit_iris("", status=1)
             user_result = launch_control_center()
             logger.debug(user_result)
             if user_result != "cancel":
@@ -193,7 +192,9 @@ def init_control_center():
         [dirs.remove(d) for d in list(dirs) if d in exclude_dirs]
         for target in dirs:
             src = os.path.join(targets_dir, target, "icon.png")
-            dest = os.path.join(PathManager.get_working_dir(), "images", "%s.png" % target)
+            dest = os.path.join(
+                PathManager.get_working_dir(), "images", "%s.png" % target
+            )
             try:
                 shutil.copyfile(src, dest)
             except FileNotFoundError:
@@ -232,7 +233,9 @@ def launch_control_center():
             binary=fx_path, profile=profile, cmdargs=args, process_args=process_args
         )
         fx_runner.start()
-    logger.debug("Launching web server for directory %s" % PathManager.get_working_dir())
+    logger.debug(
+        "Launching web server for directory %s" % PathManager.get_working_dir()
+    )
     server = LocalWebServer(PathManager.get_working_dir(), get_core_args().port)
     server.stop()
     time.sleep(Settings.DEFAULT_UI_DELAY)
@@ -303,3 +306,7 @@ class ShutdownTasks(CleanUp):
 
         if os.path.exists(PathManager.get_temp_dir()):
             shutil.rmtree(PathManager.get_temp_dir(), ignore_errors=True)
+
+
+if __name__ == "__main__":
+    main()
