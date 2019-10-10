@@ -154,8 +154,8 @@ def get_core_args():
 def get_working_dir():
     home = os.path.expanduser("~")
     repo_root = Settings.code_root
-    repo_name = os.path.basename(repo_root)
     logger.debug("Repo root: %s" % repo_root)
+    repo_name = os.path.basename(repo_root)
     logger.debug("Repo name: %s" % repo_name)
     return "%s/.%s" % (home, repo_name)
 
