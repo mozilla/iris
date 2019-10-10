@@ -74,7 +74,7 @@ class _Settings:
     DEFAULT_UI_DELAY_SHORT = 0.5
     DEFAULT_UI_DELAY_LONG = 2.5
     DEFAULT_SYSTEM_DELAY = 5
-    PACKAGE_ROOT = os.path.realpath(os.path.split(__file__)[0] + "/../..")
+    PACKAGE_ROOT = os.getenv("IRIS_CODE_ROOT")
 
     def __init__(
         self,
@@ -124,7 +124,7 @@ class _Settings:
         self.virtual_keyboard = False
         self.debug_image = False
         self.debug_image_path = _create_tempdir()
-        self._code_root = get_active_root()
+        self._code_root = os.getenv("IRIS_CODE_ROOT")
         sys.path.append(self._code_root)
 
     @property
