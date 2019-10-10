@@ -34,10 +34,8 @@ INSTALL_REQUIRES = [
     "pytesseract==0.3.0",
     "pytest==5.1.2",
     "python-dateutil==2.8.0",
+    "python-xlib==0.25",
 ]
-
-if platform.system() == "Linux":
-    INSTALL_REQUIRES.append("xlib")
 
 TESTS_REQUIRE = []
 
@@ -72,15 +70,10 @@ setup(
     packages=find_packages(),
     python_requires=">=3.7.3",
     include_package_data=True,  # See MANIFEST.in
-    zip_safe=False,
+    zip_safe=True,
     use_2to3=False,
     install_requires=INSTALL_REQUIRES,
     tests_require=TESTS_REQUIRE,
     extras_require={"dev": DEV_REQUIRES},  # For `pip install -e .[dev]`
-    entry_points={
-        "console_scripts": [
-            "iris = moziris.scripts.main:main",
-            "api-test = moziris.scripts.test:api_test",
-        ]
-    },
+    entry_points={"console_scripts": ["iris = moziris.scripts.main:main"]},
 )
