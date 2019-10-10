@@ -230,21 +230,30 @@ def get_active_root():
     3. If neither of the above, default to package root.
     """
     try:
-        return os.environ["IRIS_CODE_ROOT"]
+        path = os.environ["IRIS_CODE_ROOT"]
+        if path is not None:
+            if os.path.exists(path):
+                return path
     except KeyError:
-        cmd = subprocess.run(
-            "pipenv --where", shell=True, stdout=subprocess.PIPE, timeout=5
+        logger.debug(
+            "No code root found in environment variables, trying other methods."
         )
-        path = cmd.stdout.decode("utf-8").strip()
-        if os.path.exists(path):
-            return path
-        else:
-            return os.path.realpath(os.path.dirname(__file__) + "/../..")
+
+    cmd = subprocess.run(
+        "pipenv --where", shell=True, stdout=subprocess.PIPE, timeout=5
+    )
+    path = cmd.stdout.decode("utf-8").strip()
+    if os.path.exists(path):
+        return path
+    else:
+        return os.path.realpath(os.path.dirname(__file__) + "/../..")
 
 
 def trim_path(path):
     if path[-1] == "/" or path[-1] == "\\":
         return path[:-1]
+    else:
+        return path
 
 
 Settings = _Settings()
