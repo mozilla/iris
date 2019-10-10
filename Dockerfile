@@ -54,12 +54,14 @@ COPY ./requirements.txt /iris/requirements.txt
 WORKDIR /iris
 RUN python3.7 -m pip install -r /iris/requirements.txt
 COPY . /iris
+RUN pip install .
 
 ENV DISPLAY :99.0
 ENV -x +e -v
 ENV XAUTH $HOME/.Xauthority
 RUN touch $XAUTH
-RUN Xvfb :99 -screen 0 1920x1080x24+32 +extension GLX +extension RANDR 2>&1 &
-ENV IRIS_CODE_ROOT $PWD
-ENV PYTHONPATH $PWD
-# RUN python3.7 /iris/moziris/moziris.py sample -n -i DEBUG
+# ENV IRIS_CODE_ROOT /iris
+# ENV PYTHONPATH /iris
+RUN Xvfb :99 -screen 0 1920x1080x24+32 +extension GLX +extension RANDR &> xvfb.log && \
+    iris sample -n
+# RUN iris sample -n -i DEBUG
