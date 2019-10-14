@@ -60,8 +60,7 @@ ENV DISPLAY :99.0
 ENV -x +e -v
 ENV XAUTH $HOME/.Xauthority
 RUN touch $XAUTH
-# ENV IRIS_CODE_ROOT /iris
-# ENV PYTHONPATH /iris
+ENV IRIS_CODE_ROOT /iris
+ENV PYTHONPATH /iris
 RUN Xvfb :99 -screen 0 1920x1080x24+32 +extension GLX +extension RANDR &> xvfb.log && \
-    iris sample -n
-# RUN iris sample -n -i DEBUG
+    iris sample -n -i DEBUG
