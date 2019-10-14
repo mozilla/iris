@@ -11,77 +11,20 @@ For more detailed information and troubleshooting tips, please [view our wiki](h
 
 ## Installation
 
-### Mac instructions:
+### System Requirements
 
-#### System Requirements
-
- - Python 3
- - git
  - [Firefox](https://www.mozilla.org/en-US/firefox/new/)
+ - [Docker](https://docs.docker.com/v17.12/install/)
 
-#### Setup
+### Setup
+
+You can either clone as a git repository or download as a zip file:
 
 ```
-git clone https://github.com/mozilla/iris
-# Run the Mac bootstrap script
+# After cloning repo or extracting archive
 cd iris
-./bootstrap/bootstrap.sh
-# Run this command to agree to xcode terms of service
-sudo xcodebuild -license accept
-```
- - **Restart** your Mac in order for certain libraries to be recognized
- - In System Preferences, go to Mission Control and change the keyboard shortcut for "Application Windows" to "-", or none
- - Launch Iris
-```
-cd iris
-pipenv install
-pipenv shell
-iris sample
-```
-
-### Windows 7 / Windows 10 Professional instructions:
-
-#### System Requirements
-
- - Python 3
- - git
- - [Firefox](https://www.mozilla.org/en-US/firefox/new/)
- - [Powershell 3](https://www.microsoft.com/en-us/download/details.aspx?id=34595)
- - [.NET framework version 4.5](https://www.microsoft.com/en-us/download/details.aspx?id=30653)
-
-#### Setup
-
-```
-git clone https://github.com/mozilla/iris
-cd iris
-bootstrap\bootstrap.sh
-# Install project requirements and activate the virtualenv
-pipenv install
-pipenv shell
-# Run Iris
-iris sample
-```
-
-### Ubuntu Linux 16.04 instructions:
-
-#### System Requirements
-
- - Python 3
- - git
- - [Firefox](https://www.mozilla.org/en-US/firefox/new/)
- - [Follow instructions below for disabling Keyring](https://github.com/mozilla/iris/wiki/Setup#disable-system-keyring)
- - Open Settings > Displays > "Scale for Menu and Title bars:" and verify that it is set to 1
-
-#### Setup
-```
-git clone https://github.com/mozilla/iris
-cd iris
-./bootstrap/bootstrap.sh
-# Note: This will take around 10 minutes to download, compile, and install dependencies
-# Run the following commands to complete installation and launch Iris
-pipenv install
-pipenv shell
-iris sample
+# Build the project and tag as "iris"
+docker build . -t iris
 ```
 
 ## Usage
@@ -94,16 +37,19 @@ Once your system is configured, and the setup instructions have been followed, y
 
 To invoke the "sample" target - which is just a placeholder project for demonstration purposes:
 ```
+docker run -it iris /bin/bash
 iris sample
 ```
 
 To open the Control Center, which is the web-based UI for managing local Iris runs:
 ```
+docker run -it iris /bin/bash
 iris -k
 ```
 
 To verify that the Iris API itself exists, without running tests, this command will move your mouse on screen:
 ```
+docker run -it iris /bin/bash
 api-test
 ```
 
@@ -124,12 +70,8 @@ This means that black will format all python files in-place, and flake8 will lin
 If there are flake8 violations, *your changes will not be committed*. The list of ignored rules is documented in the
 `tox.ini` file. There should be a compelling reason to do so before adding to this list.
 
-*If you already have Iris installed on your system prior to this patch, you will need to run `pipenv install` again to install the pre-commit module.*
-
 ```
-# Install dependencies, including pre-commit
-pipenv install
-# Install pre-commit hooks defined in .pre-commit-config.yaml
+pip install pre-commit
 pre-commit install
 ```
 
