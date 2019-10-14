@@ -2,16 +2,9 @@ sudo: required
 language: python
 python: '3.7.3'
 
-# Bootstrap install
-install:
-  - 'bootstrap/linux_bootstrap.sh'
-  - 'pipenv install'
+install: apt-get install docker
 
-# Virtual display for headless run at 1920x1080 32 bit resolution
-before_script:
-    - "export DISPLAY=:99.0"
-    - "Xvfb :99 -screen 0 1920x1080x24+32 +extension GLX +extension RANDR > /dev/null 2>&1 &"
-    - sleep 3 # give xvfb some time to start
+before_script: docker build . -t iris
 
 with_content_shell: true
 
@@ -26,7 +19,9 @@ jobs:
     - stage: Ubuntu 16.04 Image search and mouse movement tests
       os: linux
       dist: xenial
-      script: pipenv run iris -h
+      script:
+        - docker run -i -t iris /bin/bash
+        - iris -h
 
 # Email notification
 notifications:
