@@ -71,7 +71,9 @@ If there are flake8 violations, *your changes will not be committed*. The list o
 `tox.ini` file. There should be a compelling reason to do so before adding to this list.
 
 ```
+# Install pre-commit
 pip install pre-commit
+# Install pre-commit hooks defined in .pre-commit-config.yaml
 pre-commit install
 ```
 
