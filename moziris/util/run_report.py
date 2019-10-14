@@ -121,8 +121,6 @@ def create_footer(app):
     failed = 0
     passed = 0
     errors = 0
-    total_duration = 0
-
     failed_tests = []
 
     for test in app.completed_tests:
@@ -138,8 +136,7 @@ def create_footer(app):
             failed_tests.append(test.file_name)
             errors = errors + 1
 
-        total_duration = total_duration + test.test_duration
-
+    total_duration = app.end_time - app.start_time
     total_tests = passed + skipped + failed + errors
     return ReportFooter(
         app, total_tests, passed, failed, skipped, errors, total_duration, failed_tests
