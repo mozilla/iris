@@ -133,7 +133,6 @@ class Pattern:
 
     def similar(self, value: float):
         """Set the minimum similarity of the given Pattern object to the specified value."""
-        self.load_pattern()
         if value > 0.99:
             self.similarity = 0.99
         elif 0.0 <= value and value <= 0.99:
@@ -144,7 +143,6 @@ class Pattern:
 
     def exact(self):
         """Set the minimum similarity of the given Pattern object to 0.99, which means exact match is required."""
-        self.load_pattern()
         self.similarity = 0.99
         return self
 
