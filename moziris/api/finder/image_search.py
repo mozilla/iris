@@ -29,6 +29,7 @@ from moziris.api.settings import Settings
 logger = logging.getLogger(__name__)
 
 FIND_METHOD = cv2.TM_CCOEFF_NORMED
+last_image_write_time = datetime.datetime.now()
 
 
 def _is_pattern_size_correct(pattern, region):
@@ -110,7 +111,12 @@ def match_template(
                 save_img_location_list.append(save_img_location)
                 locations_list.append(location)
 
-        save_debug_image(pattern, stack_image, save_img_location_list)
+        # Limit debug image creation to one per second to avoid creating unnecessary images.
+        global last_image_write_time
+        next_write_time = last_image_write_time + datetime.timedelta(seconds=1)
+        if datetime.datetime.now() > next_write_time:
+            save_debug_image(pattern, stack_image, save_img_location_list)
+            last_image_write_time = datetime.datetime.now()
 
     except ScreenshotError:
         logger.warning("Screenshot failed.")
