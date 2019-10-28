@@ -19,7 +19,7 @@ INSTALL_REQUIRES = [
     "mozdownload==1.26",
     "mozinfo==1.1.0",
     "mozinstall==2.0.0",
-    "mozlog==4.2.0",
+    "mozlog==5.0",
     "mozrunner==7.5.1",
     "mozversion==2.1.0",
     "mss==4.0.3",
