@@ -6,7 +6,7 @@ import platform
 from setuptools import setup, find_packages
 
 PACKAGE_NAME = "moziris"
-PACKAGE_VERSION = "0.7"
+PACKAGE_VERSION = "0.8"
 
 INSTALL_REQUIRES = [
     "bugzilla==1.0.0",
@@ -19,9 +19,8 @@ INSTALL_REQUIRES = [
     "mozdownload==1.26",
     "mozinfo==1.1.0",
     "mozinstall==2.0.0",
-    "mozlog==5.0",
-    "mozrunner==7.5.1",
-    "mozversion==2.1.0",
+    "mozrunner==7.7",
+    "mozversion==2.2.0",
     "mss==4.0.3",
     "numpy==1.17.2",
     "opencv-python==4.1.1.26",
