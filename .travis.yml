@@ -11,7 +11,6 @@ install:
 before_script:
     - "export DISPLAY=:99.0"
     - "Xvfb :99 -screen 0 1920x1080x24+32 +extension GLX +extension RANDR > /dev/null 2>&1 &"
-    - sleep 3 # give xvfb some time to start
 
 with_content_shell: true
 
@@ -19,14 +18,18 @@ with_content_shell: true
 jobs:
   include:
     - stage: Lint
-      before_install: skip
       before_script: skip
       install: pip install tox
       script: tox -e flake8
-    - stage: Ubuntu 16.04 Image search and mouse movement tests
+    - stage: Build
       os: linux
       dist: xenial
       script: pipenv run iris -h
+    - stage: Smoke Tests
+      install: pip install tox
+      script:
+        - tox -e default_config
+        - tox -e custom_config
 
 # Email notification
 notifications:
