@@ -101,16 +101,24 @@ class ScreenshotImage:
 
 
 def _region_to_image(region) -> Image or ScreenshotError:
-    if not OSHelper.is_linux():
-        grabbed_area = _mss_screenshot(region)
-    else:
-        try:
-            grabbed_area = np.array(
-                screenshot(region=(region.x, region.y, region.width, region.height))
-            )
-        except (IOError, OSError):
-            logger.debug("Call to pyautogui.screnshot failed, using mss instead.")
-            grabbed_area = _mss_screenshot(region)
+    # On Linux, try to use pyautogui to take screenshots, and revert to mss if it fails.
+    # On Windows/Mac, do the reverse.
+    try:
+        if OSHelper.is_linux():
+            try:
+                grabbed_area = _pyautogui_screenshot(region)
+            except ScreenshotError as e:
+                logger.debug(e)
+                grabbed_area = _mss_screenshot(region)
+        else:
+            try:
+                grabbed_area = _mss_screenshot(region)
+            except ScreenshotError as e:
+                logger.debug(e)
+                grabbed_area = _pyautogui_screenshot(region)
+    except ScreenshotError as e:
+        logger.error("Screenshot failed: %s" % e)
+        raise ScreenshotError("Cannot create screenshot: %s" % e)
     return grabbed_area
 
 
@@ -130,5 +138,14 @@ def _convert_image_to_color(image):
 def _mss_screenshot(region):
     try:
         return np.array(_mss.grab(region))
-    except Exception:
-        raise ScreenshotError("Unable to take screenshot.")
+    except Exception as e:
+        raise ScreenshotError("Call to _mss.grab failed: %s" % e)
+
+
+def _pyautogui_screenshot(region):
+    try:
+        return np.array(
+            screenshot(region=(region.x, region.y, region.width, region.height))
+        )
+    except (IOError, OSError):
+        raise ScreenshotError("Call to pyautogui.screenshot failed.")
