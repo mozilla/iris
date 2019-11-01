@@ -66,8 +66,8 @@ def scan_dir(path):
 
 
 def get_target(target_name: str):
-    logger.info("Desired target: %s" % target_name)
-    logger.info("Desired module: targets.%s.main" % target_name)
+    logger.debug("Desired target: %s" % target_name)
+    logger.debug("Desired module: targets.%s.main" % target_name)
     target_path = os.path.join(Settings.PACKAGE_ROOT, "moziris", "targets", target_name)
     path_exists = os.path.exists(target_path)
     logger.debug("Target path %s exists in package: %s" % (target_path, path_exists))
@@ -104,10 +104,10 @@ def import_package_by_name(target_name: str, path: str):
     logger.debug("Looking for target %s in path %s" % (target_name, path))
     try:
         my_module = importlib.import_module("targets.%s.main" % target_name)
-        logger.info("Successful import!")
+        logger.debug("Successful import!")
         try:
             target_plugin = my_module.Target()
-            logger.info("Found target named %s" % target_plugin.target_name)
+            logger.debug("Found target named %s" % target_plugin.target_name)
             return target_plugin
         except NameError:
             raise Exception("Target %s not found in path %s" % (target_name, path))

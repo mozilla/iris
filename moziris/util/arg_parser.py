@@ -8,7 +8,7 @@ import logging
 import os
 
 from moziris.api.os_helpers import OSHelper
-from moziris.api.settings import Settings
+
 
 logger = logging.getLogger(__name__)
 iris_args = None
@@ -120,7 +120,7 @@ def get_core_args():
         help="Path to working directory",
         type=os.path.abspath,
         action="store",
-        default=get_working_dir(),
+        default=None,
     )
     parser.add_argument(
         "-x",
@@ -149,15 +149,6 @@ def get_core_args():
         exit(1)
 
     return iris_args
-
-
-def get_working_dir():
-    home = os.path.expanduser("~")
-    repo_root = Settings.code_root
-    logger.debug("Repo root: %s" % repo_root)
-    repo_name = os.path.basename(repo_root)
-    logger.debug("Repo name: %s" % repo_name)
-    return "%s/.%s" % (home, repo_name)
 
 
 def set_core_arg(arg, value):

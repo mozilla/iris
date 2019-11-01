@@ -11,6 +11,7 @@ import tempfile
 
 from moziris.api.enums import Color
 from moziris.api.os_helpers import OSHelper
+from moziris.util.arg_parser import get_core_args
 
 logger = logging.getLogger(__name__)
 
@@ -222,18 +223,33 @@ class _Settings:
         caller = inspect.stack()[1][1]
         Settings.code_root = os.path.split(caller)[0]
 
+    @property
+    def work_dir(self):
+        if get_core_args().workdir is None:
+            return get_working_dir()
+        else:
+            return get_core_args().workdir
+
 
 def get_active_root():
     """
     Determine location of targets/tests dynamically, using this priority:
-    1. Set by user via environment variable.
-    2. Using the Pipfile to locate active project.
-    3. If neither of the above, default to package root.
+    1. Set by user via runtime flag.
+    2. Set by user via environment variable.
+    3. Using the Pipfile to locate active project.
+    4. If none of the above, default to package root and show a warning.
     """
+
+    path = get_core_args().code_root
+    if path is not None:
+        logger.debug("Code root found in -q arg: %s" % path)
+        return path
+
     try:
         path = os.environ["IRIS_CODE_ROOT"]
         if path is not None:
             if os.path.exists(path):
+                logger.debug("Code root found in environment variable: %s" % path)
                 return path
     except KeyError:
         logger.debug(
@@ -245,10 +261,20 @@ def get_active_root():
     )
     path = cmd.stdout.decode("utf-8").strip()
     if os.path.exists(path):
+        logger.debug("Code root set using location of Pipfile: %s" % path)
         return path
     else:
         path_warning()
         return os.path.realpath(os.path.dirname(__file__) + "/../..")
+
+
+def get_working_dir():
+    home = os.path.expanduser("~")
+    repo_root = Settings.code_root
+    logger.debug("Repo root: %s" % repo_root)
+    repo_name = os.path.basename(repo_root)
+    logger.debug("Repo name: %s" % repo_name)
+    return "%s/.%s" % (home, repo_name)
 
 
 def trim_path(path):
