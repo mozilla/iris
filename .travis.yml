@@ -21,15 +21,16 @@ jobs:
       before_script: skip
       install: pip install tox
       script: tox -e flake8
+    - stage: Unit Tests
+      install: pip install tox
+      script:
+        - tox -e config_default
+        - tox -e config_custom
     - stage: Build
       os: linux
       dist: xenial
       script: pipenv run iris -h
-    - stage: Smoke Tests
-      install: pip install tox
-      script:
-        - tox -e default_config
-        - tox -e custom_config
+
 
 # Email notification
 notifications:
