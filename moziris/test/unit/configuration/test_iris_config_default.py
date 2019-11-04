@@ -11,7 +11,7 @@ with patch.object(sys, "argv", ["iris", "sample", "-n"]):
     pprint(default_config.__dict__)
 
 
-class TestIrisDefaultConfiguration:
+class TestIrisConfigDefault:
     def test_default_target(self):
         target = default_config.target
         assert target == "sample", "target = {}".format(target)

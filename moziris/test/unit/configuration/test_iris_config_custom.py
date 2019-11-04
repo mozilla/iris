@@ -39,7 +39,7 @@ with patch.object(
     pprint(test_config.__dict__)
 
 
-class TestIrisCustomConfiguration:
+class TestIrisConfigCustom:
     # Check that values are set correctly
 
     def test_set_target(self):
