@@ -5,10 +5,6 @@ from moziris.util import arg_parser
 
 with patch.object(sys, "argv", ["iris", "sample", "-n"]):
     default_config = arg_parser.get_core_args()
-    from pprint import pprint
-
-    print("\n\n\ndefault args:\n")
-    pprint(default_config.__dict__)
 
 
 class TestIrisConfigDefault:

@@ -33,10 +33,6 @@ with patch.object(
 ):
 
     test_config = arg_parser.get_core_args()
-    from pprint import pprint
-
-    print("\n\n\ntest args:\n")
-    pprint(test_config.__dict__)
 
 
 class TestIrisConfigCustom:
