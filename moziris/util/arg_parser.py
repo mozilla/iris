@@ -6,8 +6,7 @@ from argparse import Namespace
 import argparse
 import logging
 import os
-
-from moziris.api.os_helpers import OSHelper
+import sys
 
 
 logger = logging.getLogger(__name__)
@@ -144,7 +143,7 @@ def get_core_args():
     if iris_args is None:
         iris_args = parser.parse_known_args()[0]
 
-    if iris_args.virtual_keyboard and not OSHelper.is_linux():
+    if iris_args.virtual_keyboard and not sys.platform == "linux":
         logger.error("Virtual keyboard is available only on LINUX.")
         exit(1)
 
