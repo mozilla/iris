@@ -62,7 +62,9 @@ def create_target_json():
                 logger.error("Problems importing module '%s':\n%s" % (item, e))
 
         target_json = {"targets": targets}
-        target_json_file = os.path.join(PathManager.get_working_dir(), "data", "targets.json")
+        target_json_file = os.path.join(
+            PathManager.get_working_dir(), "data", "targets.json"
+        )
         with open(target_json_file, "w") as f:
             json.dump(target_json, f, sort_keys=True, indent=True)
 
@@ -207,6 +209,8 @@ def convert_test_list(test_list, only_failures=False):
         try:
             target_root = original_path.split(test_root)[1]
         except IndexError:
+            logger.error("Original test path: %s" % original_path)
+            logger.error("Test root: %s\n" % test_root)
             logger.error("Error parsing test list.")
             logger.error("Try resetting your PYTHONPATH before your next run, i.e.:")
             if OSHelper.get_os().value == "win":
@@ -360,7 +364,9 @@ def use_cached_target_file():
     cache_time = 60 * 15
 
     result = False
-    target_json_file = os.path.join(PathManager.get_working_dir(), "data", "targets.json")
+    target_json_file = os.path.join(
+        PathManager.get_working_dir(), "data", "targets.json"
+    )
     if os.path.exists(target_json_file):
         file_modified_time = int(os.path.getmtime(target_json_file))
         logger.debug("Target file created: %s" % file_modified_time)
