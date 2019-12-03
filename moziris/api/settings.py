@@ -274,7 +274,7 @@ def get_working_dir():
     logger.debug("Repo root: %s" % repo_root)
     repo_name = os.path.basename(repo_root)
     logger.debug("Repo name: %s" % repo_name)
-    return "%s/.%s" % (home, repo_name)
+    return "%s%s.%s" % (home, os.sep, repo_name)
 
 
 def trim_path(path):
