@@ -79,20 +79,23 @@ else
     powershell -Command "scoop install sudo"
 fi
 
-echo -e "\n${GREEN} --->  Installing Tesseract 4 ${NC} \n"
-if command -v tesseract &>/dev/null; then
-    echo -e "${GREEN}  --->  Tesseract already installed. ${NC}\n"
-    echo -e "${GREEN}    --->  Checking Tesseract version. ${NC}\n"
-    if [[ $(tesseract -v | grep "tesseract 3.05") =~ 3 ]]; then
-        echo -e "${RED}  --->  You have Tesseract 3, removing and installing Tesseract 4.${NC}\n"
-        powershell -Command "scoop uninstall tesseract" # If Scoop does not recognize tesseract3 command
-        powershell -Command "scoop uninstall tesseract3"
-        install_tesseract
+if [[ $OCR_INSTALL=="1" ]]
+then
+    echo -e "\n${GREEN} --->  Installing Tesseract 4 ${NC} \n"
+    if command -v tesseract &>/dev/null; then
+        echo -e "${GREEN}  --->  Tesseract already installed. ${NC}\n"
+        echo -e "${GREEN}    --->  Checking Tesseract version. ${NC}\n"
+        if [[ $(tesseract -v | grep "tesseract 3.05") =~ 3 ]]; then
+            echo -e "${RED}  --->  You have Tesseract 3, removing and installing Tesseract 4.${NC}\n"
+            powershell -Command "scoop uninstall tesseract" # If Scoop does not recognize tesseract3 command
+            powershell -Command "scoop uninstall tesseract3"
+            install_tesseract
+        else
+            echo -e "${GREEN}    --->  Tesseract is the correct version. ${NC}\n"
+        fi
     else
-        echo -e "${GREEN}    --->  Tesseract is the correct version. ${NC}\n"
+        install_tesseract
     fi
-else
-    install_tesseract
 fi
 
 echo -e "\n${GREEN}  --->  installing/updating Python 3.7 #####${NC}\n"

@@ -11,6 +11,7 @@ import tempfile
 
 from moziris.api.enums import Color
 from moziris.api.os_helpers import OSHelper
+from moziris.util.system import init_tesseract_path
 from moziris.util.arg_parser import get_core_args
 
 logger = logging.getLogger(__name__)
@@ -76,6 +77,7 @@ class _Settings:
     DEFAULT_UI_DELAY_SHORT = 0.5
     DEFAULT_UI_DELAY_LONG = 2.5
     DEFAULT_SYSTEM_DELAY = 5
+    OCR_ENABLED = init_tesseract_path()
     PACKAGE_ROOT = os.path.realpath(os.path.split(__file__)[0] + "/../..")
 
     def __init__(

@@ -156,9 +156,7 @@ def get_test_params():
 def verify_config(args):
     """Checks keyboard state is correct, and that Tesseract and 7zip are installed."""
     try:
-        if not all(
-            [check_keyboard_state(args.no_check), init_tesseract_path(), check_7zip()]
-        ):
+        if not all([check_keyboard_state(args.no_check), check_7zip()]):
             exit_iris("Failed platform check, closing Iris.", status=1)
     except KeyboardInterrupt as e:
         exit_iris(e, status=1)

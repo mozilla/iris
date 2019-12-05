@@ -60,6 +60,8 @@ def highlight(
                     HighlightRectangle(loc.x, loc.y, width, height, color)
                 )
         elif isinstance(ps, str):
+            if not Settings.OCR_ENABLED:
+                raise FindError("OCR is not enabled, cannot search for text.")
             for loc in text_location:
                 hl.draw_rectangle(
                     HighlightRectangle(loc.x, loc.y, loc.width, loc.height, color)
@@ -85,6 +87,8 @@ def find(ps: Pattern or str, region: Rectangle = None) -> Location or FindError:
         else:
             raise FindError("Unable to find image %s" % ps.get_filename())
     elif isinstance(ps, str):
+        if not Settings.OCR_ENABLED:
+            raise FindError("OCR is not enabled, cannot search for text.")
         text_found = text_find(ps, region)
         if len(text_found) > 0:
             if Settings.highlight:
@@ -110,6 +114,8 @@ def find_all(ps: Pattern or str, region: Rectangle = None):
         else:
             raise FindError("Unable to find image %s" % ps.get_filename())
     elif isinstance(ps, str):
+        if not Settings.OCR_ENABLED:
+            raise FindError("OCR is not enabled, cannot search for text.")
         locations = []
         text_found = text_find_all(ps, region)
         if len(text_found) > 0:
@@ -142,6 +148,8 @@ def wait(ps, timeout=None, region=None) -> bool or FindError:
         else:
             raise FindError("Unable to find image %s" % ps.get_filename())
     elif isinstance(ps, str):
+        if not Settings.OCR_ENABLED:
+            raise FindError("OCR is not enabled, cannot search for text.")
         text_found = text_find(ps, region)
         if len(text_found) > 0:
             if Settings.highlight:

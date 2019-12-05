@@ -33,19 +33,21 @@ else
     install_python37
 fi
 
-
-echo -e "\n${GREEN} --->  Installing Tesseract ${NC} \n"
-if command -v tesseract -v >/dev/null 2>&1; then
-    echo -e "\n${GREEN}  --->  Skipping Tesseract install. Already installed. ${NC}\n"
-    echo -e "${GREEN}    --->  Checking Tesseract version. ${NC}\n"
-    if [[ $(tesseract -v | grep "tesseract 3.05") ]]; then
-        echo -e "${RED}  --->  You have Tesseract 3, removing and installing Tesseract 4.${NC}\n"
-        brew upgrade tesseract
+if [[ $OCR_INSTALL=="1" ]]
+then
+    echo -e "\n${GREEN} --->  Installing Tesseract ${NC} \n"
+    if command -v tesseract -v >/dev/null 2>&1; then
+        echo -e "\n${GREEN}  --->  Skipping Tesseract install. Already installed. ${NC}\n"
+        echo -e "${GREEN}    --->  Checking Tesseract version. ${NC}\n"
+        if [[ $(tesseract -v | grep "tesseract 3.05") ]]; then
+            echo -e "${RED}  --->  You have Tesseract 3, removing and installing Tesseract 4.${NC}\n"
+            brew upgrade tesseract
+        else
+            echo -e "${GREEN}    --->  Tesseract is the correct version. ${NC}\n"
+        fi
     else
-        echo -e "${GREEN}    --->  Tesseract is the correct version. ${NC}\n"
+        brew install tesseract
     fi
-else
-    brew install tesseract
 fi
 
 echo -e "\n${GREEN}  --->  installing/updating p7zip ${NC} \n"

@@ -131,107 +131,109 @@ else
     python3.7 -m pip install psutil
 fi
 
+if [[ $OCR_INSTALL=="1" ]]
+then
+    echo -e "\n${GREEN}  --->  installing/upgrading Leptonica #####${NC}\n"
+    if [[ $(tesseract -v | grep "leptonica-1.76") ]]; then
+        echo -e "\n${GREEN} --->  Skipping Leptonica install. Already installed. ${NC}\n"
+    else
+        cd ~
+        if [ ! -f leptonica-1.76.0.tar.gz ]; then
+            echo "\n${GREEN}  --->  Downloading leptonica-1.76.0.tar.gz ${NC}\n"
+            wget http://www.leptonica.org/source/leptonica-1.76.0.tar.gz
+        fi
 
-echo -e "\n${GREEN}  --->  installing/upgrading Leptonica #####${NC}\n"
-if [[ $(tesseract -v | grep "leptonica-1.76") ]]; then
-    echo -e "\n${GREEN} --->  Skipping Leptonica install. Already installed. ${NC}\n"
-else
-    cd ~
-    if [ ! -f leptonica-1.76.0.tar.gz ]; then
-        echo "\n${GREEN}  --->  Downloading leptonica-1.76.0.tar.gz ${NC}\n"
-        wget http://www.leptonica.org/source/leptonica-1.76.0.tar.gz
-    fi
+        if [ ! -d leptonica-1.76.0 ]; then
+            if [ -f leptonica-1.76.0.tar.gz ]; then
+                tar xopf leptonica-1.76.0.tar.gz
+            else
+                echo -e "\n${RED}  --->  Archive leptonica-1.76.0.tar.gz not found! Maybe download failed. ${NC}\n" && exit 0
+            fi
+        fi
 
-    if [ ! -d leptonica-1.76.0 ]; then
-        if [ -f leptonica-1.76.0.tar.gz ]; then
-            tar xopf leptonica-1.76.0.tar.gz
+        if [ ! -d leptonica-1.76.0 ]; then
+            echo "\n${RED}  --->  leptonica-1.76.0 directory not found! Maybe the extraction failed. ${NC}\n" && exit 0
         else
-            echo -e "\n${RED}  --->  Archive leptonica-1.76.0.tar.gz not found! Maybe download failed. ${NC}\n" && exit 0
+            cd leptonica-1.76.0
+        fi
+
+        if [[ $(pwd | grep "leptonica-1.76.0") ]]; then
+            ${SUDO_USER} ./configure &&\
+            ${SUDO_USER} make &&\
+            ${SUDO_USER} make install
         fi
     fi
 
-    if [ ! -d leptonica-1.76.0 ]; then
-        echo "\n${RED}  --->  leptonica-1.76.0 directory not found! Maybe the extraction failed. ${NC}\n" && exit 0
+
+    echo -e "\n${GREEN}  --->  installing/upgrading Tesseract #####${NC}\n"
+    if [[ $(tesseract -v | grep "tesseract 4.") ]]; then
+        echo -e "\n${GREEN} --->  Skipping Tesseract v4 install. Already installed. ${NC}\n"
     else
-        cd leptonica-1.76.0
-    fi
+        cd ~
+        if [ ! -f 4.0.0.tar.gz ]; then
+            echo "\n${GREEN}  --->  Downloading Tesseract archive 4.0.0.tar.gz ${NC}\n"
+            wget https://github.com/tesseract-ocr/tesseract/archive/4.0.0.tar.gz
+        fi
 
-    if [[ $(pwd | grep "leptonica-1.76.0") ]]; then
-        ${SUDO_USER} ./configure &&\
-        ${SUDO_USER} make &&\
-        ${SUDO_USER} make install
-    fi
-fi
+        if [ ! -d tesseract-4.0.0 ]; then
+            if [ -f 4.0.0.tar.gz ]; then
+                tar xopf 4.0.0.tar.gz
+            else
+                echo -e "\n${RED}  --->  Tesseract archive 4.0.0.tar.gz not found! Maybe download failed. ${NC}\n" && exit 0
+            fi
+        fi
 
-
-echo -e "\n${GREEN}  --->  installing/upgrading Tesseract #####${NC}\n"
-if [[ $(tesseract -v | grep "tesseract 4.") ]]; then
-    echo -e "\n${GREEN} --->  Skipping Tesseract v4 install. Already installed. ${NC}\n"
-else
-    cd ~
-    if [ ! -f 4.0.0.tar.gz ]; then
-        echo "\n${GREEN}  --->  Downloading Tesseract archive 4.0.0.tar.gz ${NC}\n"
-        wget https://github.com/tesseract-ocr/tesseract/archive/4.0.0.tar.gz
-    fi
-
-    if [ ! -d tesseract-4.0.0 ]; then
-        if [ -f 4.0.0.tar.gz ]; then
-            tar xopf 4.0.0.tar.gz
+        if [ ! -d tesseract-4.0.0 ]; then
+            echo "\n${RED}  --->  tesseract-4.0.0 directory not found! Maybe the extraction failed. ${NC}\n" && exit 0
         else
-            echo -e "\n${RED}  --->  Tesseract archive 4.0.0.tar.gz not found! Maybe download failed. ${NC}\n" && exit 0
+            cd tesseract-4.0.0
+        fi
+
+        if [[ $(pwd | grep "tesseract-4.0.0") ]]; then
+            ${SUDO_USER} ./autogen.sh &&\
+            ./configure --enable-debug &&\
+            LDFLAGS="-L/usr/local/lib" CFLAGS="-I/usr/local/include" make &&\
+            ${SUDO_USER} make install &&\
+            ${SUDO_USER} make install -langs &&\
+            ${SUDO_USER} ldconfig
         fi
     fi
 
-    if [ ! -d tesseract-4.0.0 ]; then
-        echo "\n${RED}  --->  tesseract-4.0.0 directory not found! Maybe the extraction failed. ${NC}\n" && exit 0
-    else
-        cd tesseract-4.0.0
-    fi
 
-    if [[ $(pwd | grep "tesseract-4.0.0") ]]; then
-        ${SUDO_USER} ./autogen.sh &&\
-        ./configure --enable-debug &&\
-        LDFLAGS="-L/usr/local/lib" CFLAGS="-I/usr/local/include" make &&\
-        ${SUDO_USER} make install &&\
-        ${SUDO_USER} make install -langs &&\
-        ${SUDO_USER} ldconfig
-    fi
-fi
+    echo -e "\n${GREEN}  --->  Downloading and installing Tesseract data #####${NC}\n"
+    if  [ ! -f /usr/local/share/tessdata/afr.traineddata ]; then
+        cd ~
+        if [ ! -f 4.0.0.zip ]; then
+            echo "\n${GREEN}   --->  Downloading Tessdata archive 4.0.0.zip ${NC}\n"
+            wget https://github.com/tesseract-ocr/tessdata/archive/4.0.0.zip
+        fi
 
-
-echo -e "\n${GREEN}  --->  Downloading and installing Tesseract data #####${NC}\n"
-if  [ ! -f /usr/local/share/tessdata/afr.traineddata ]; then
-    cd ~
-    if [ ! -f 4.0.0.zip ]; then
-        echo "\n${GREEN}   --->  Downloading Tessdata archive 4.0.0.zip ${NC}\n"
-        wget https://github.com/tesseract-ocr/tessdata/archive/4.0.0.zip
-    fi
-
-    if [ -f 4.0.0.zip ]; then
-        if [[ $(find 4.0.0.zip -type f -size +490000000c 2>/dev/null) ]]; then
-            echo -e "\n${GREEN}  --->  Download finished. Unziping Tessdata archive 4.0.0.zip ${NC}\n"
-            unzip 4.0.0.zip
+        if [ -f 4.0.0.zip ]; then
+            if [[ $(find 4.0.0.zip -type f -size +490000000c 2>/dev/null) ]]; then
+                echo -e "\n${GREEN}  --->  Download finished. Unziping Tessdata archive 4.0.0.zip ${NC}\n"
+                unzip 4.0.0.zip
+            else
+                echo -e "\n${RED}  --->  Tessdata archive 4.0.0.zip is not the correct size. Maybe download was stopped or did not completely finish. ${NC}\n"
+                echo -e "${RED}        Please delete the file and restart the process. ${NC}\n" && exit 0
+            fi
         else
-            echo -e "\n${RED}  --->  Tessdata archive 4.0.0.zip is not the correct size. Maybe download was stopped or did not completely finish. ${NC}\n"
-            echo -e "${RED}        Please delete the file and restart the process. ${NC}\n" && exit 0
+            echo -e "\n${RED}  --->  Tessdata archive 4.0.0.zip not found! Maybe download failed. ${NC}\n" && exit 0
         fi
-    else
-        echo -e "\n${RED}  --->  Tessdata archive 4.0.0.zip not found! Maybe download failed. ${NC}\n" && exit 0
-    fi
 
-    if [ ! -d tessdata-4.0.0 ]; then
-        echo "\n${RED}  --->  tessdata-4.0.0 directory not found! Maybe the extraction failed. ${NC}\n" && exit 0
-    else
-        cd tessdata-4.0.0
-    fi
-
-    if [[ $(pwd | grep "tessdata-4.0.0") ]]; then
-        if [[ ! -d /usr/local/share/tessdata/ ]]; then
-            ${SUDO_USER} mkdir /usr/local/share/tessdata/
+        if [ ! -d tessdata-4.0.0 ]; then
+            echo "\n${RED}  --->  tessdata-4.0.0 directory not found! Maybe the extraction failed. ${NC}\n" && exit 0
+        else
+            cd tessdata-4.0.0
         fi
-        ${SUDO_USER} mv * /usr/local/share/tessdata/
-    fi
 
-else
-    echo -e "\n${GREEN}  --->  Skipping Tesseract tessdata install. Already found in directory --> /usr/local/share/tessdata/${NC}\n"
+        if [[ $(pwd | grep "tessdata-4.0.0") ]]; then
+            if [[ ! -d /usr/local/share/tessdata/ ]]; then
+                ${SUDO_USER} mkdir /usr/local/share/tessdata/
+            fi
+            ${SUDO_USER} mv * /usr/local/share/tessdata/
+        fi
+
+    else
+        echo -e "\n${GREEN}  --->  Skipping Tesseract tessdata install. Already found in directory --> /usr/local/share/tessdata/${NC}\n"
+    fi
 fi
