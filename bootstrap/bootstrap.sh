@@ -28,6 +28,7 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
       exit 1
   fi
   read -p "Do you wish to install libraries to enable OCR features? (y)es/(n)o " -n 1 -r
+  echo
   ${SUDO_USER} $(dirname "$0")/linux_bootstrap.sh $REPLY
 elif [[ "$OSTYPE" == "darwin"* ]]; then
   echo -e "${CYAN}Bootstrapping for Mac OS X ${NC} \n"
@@ -41,6 +42,7 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
       exit 1
   fi
   read -p "Do you wish to install libraries to enable OCR features? (y)es/(n)o " -n 1 -r
+  echo
   $(dirname "$0")/osx_bootstrap.sh $REPLY
 else
   echo -e "${CYAN} Bootstrapping for Windows OS ${NC} \n"
