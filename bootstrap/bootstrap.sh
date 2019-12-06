@@ -54,5 +54,6 @@ else
       exit 1
   fi
   read -p "Do you wish to install libraries to enable OCR features? (y)es/(n)o " -n 1 -r
+  echo
   $(dirname "$0")/win_bootstrap.sh $REPLY
 fi
