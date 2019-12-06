@@ -33,7 +33,7 @@ else
     install_python37
 fi
 
-if [[ $OCR_INSTALL=="1" ]]
+if [[ $1 == "y" ]]
 then
     echo -e "\n${GREEN} --->  Installing Tesseract ${NC} \n"
     if command -v tesseract -v >/dev/null 2>&1; then

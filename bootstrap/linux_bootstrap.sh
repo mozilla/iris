@@ -131,7 +131,7 @@ else
     python3.7 -m pip install psutil
 fi
 
-if [[ $OCR_INSTALL=="1" ]]
+if [[ $1 == "y" ]]
 then
     echo -e "\n${GREEN}  --->  installing/upgrading Leptonica #####${NC}\n"
     if [[ $(tesseract -v | grep "leptonica-1.76") ]]; then

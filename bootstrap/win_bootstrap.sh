@@ -79,7 +79,7 @@ else
     powershell -Command "scoop install sudo"
 fi
 
-if [[ $OCR_INSTALL=="1" ]]
+if [[ $1 == "y" ]]
 then
     echo -e "\n${GREEN} --->  Installing Tesseract 4 ${NC} \n"
     if command -v tesseract &>/dev/null; then
