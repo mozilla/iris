@@ -118,6 +118,10 @@ class BaseTarget:
         :param _pytest.main.Session session: the pytest session object.
         :param int exitstatus: the status which pytest will return to the system.
         """
+        for test in self.completed_tests:
+            if test.outcome == "FAILED" or test.outcome == "ERROR":
+                self.clean_run = False
+
         self.end_time = time.time()
 
         update_run_index(self, True)
@@ -187,8 +191,6 @@ class BaseTarget:
         """
 
         if call.when == "call" and call.excinfo is not None:
-            self.clean_run = False
-
             # Examine the last line of the call stack.
             tb = call.excinfo.traceback.pop()
 
