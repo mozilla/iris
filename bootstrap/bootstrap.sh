@@ -23,13 +23,12 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
   echo -e "libpango1.0-dev\nlibcairo2-dev\nfirefox\nwmctrl\nxdotool\npython3.7-tk\n"
   read -p "Do you wish to continue? (y)es/(n)o " -n 1 -r
   echo
-  if [[ ! $REPLY =~ ^[Yy]$ ]]
+  if [[ $REPLY =~ ^[Yy]$ ]]
   then
-      exit 1
+      read -p "Do you wish to install libraries to enable OCR features? (y)es/(n)o " -n 1 -r
+      echo
+      ${SUDO_USER} $(dirname "$0")/linux_bootstrap.sh $REPLY
   fi
-  read -p "Do you wish to install libraries to enable OCR features? (y)es/(n)o " -n 1 -r
-  echo
-  ${SUDO_USER} $(dirname "$0")/linux_bootstrap.sh $REPLY
 elif [[ "$OSTYPE" == "darwin"* ]]; then
   echo -e "${CYAN}Bootstrapping for Mac OS X ${NC} \n"
   echo -e "\n${RED}The following applications will be installed on your system:${NC}"
@@ -37,13 +36,12 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
   echo -e "\n${RED}This script will also overwrite any symlinks to Python 3\n${NC}"
   read -p "Do you wish to continue? (y)es/(n)o " -n 1 -r
   echo
-  if [[ ! $REPLY =~ ^[Yy]$ ]]
+  if [[ $REPLY =~ ^[Yy]$ ]]
   then
-      exit 1
+      read -p "Do you wish to install libraries to enable OCR features? (y)es/(n)o " -n 1 -r
+      echo
+      $(dirname "$0")/osx_bootstrap.sh $REPLY
   fi
-  read -p "Do you wish to install libraries to enable OCR features? (y)es/(n)o " -n 1 -r
-  echo
-  $(dirname "$0")/osx_bootstrap.sh $REPLY
 else
   echo -e "${CYAN} Bootstrapping for Windows OS ${NC} \n"
   echo -e "${RED}Administrator password required!${NC} \n"
@@ -51,11 +49,10 @@ else
   echo -e "\nScoop package management\n7zip\nopenssh\ngit\nfirefox\nwhich\nsudo\ntesseract\npython3.7\n"
   read -p "Do you wish to continue? (y)es/(n)o " -n 1 -r
   echo
-  if [[ ! $REPLY =~ ^[Yy]$ ]]
+  if [[ $REPLY =~ ^[Yy]$ ]]
   then
-      exit 1
+      read -p "Do you wish to install libraries to enable OCR features? (y)es/(n)o " -n 1 -r
+      echo
+      $(dirname "$0")/win_bootstrap.sh $REPLY
   fi
-  read -p "Do you wish to install libraries to enable OCR features? (y)es/(n)o " -n 1 -r
-  echo
-  $(dirname "$0")/win_bootstrap.sh $REPLY
 fi

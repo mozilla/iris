@@ -79,7 +79,7 @@ else
     powershell -Command "scoop install sudo"
 fi
 
-if [[ $1 == "y" ]]
+if [[ $1 =~ ^[Yy]$ ]]
 then
     echo -e "\n${GREEN} --->  Installing Tesseract 4 ${NC} \n"
     if command -v tesseract &>/dev/null; then
