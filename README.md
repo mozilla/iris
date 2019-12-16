@@ -115,4 +115,3 @@ For more detailed examples, see the [project wiki](https://github.com/mozilla/ir
 ## Contributing
 
 See our [project wiki](https://github.com/mozilla/iris/wiki/Developer-Workflow) for more information on contributing to Iris.
-
