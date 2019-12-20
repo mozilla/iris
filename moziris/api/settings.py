@@ -127,7 +127,7 @@ class _Settings:
         self.virtual_keyboard = False
         self.debug_image = False
         self.debug_image_path = _create_tempdir()
-        self._code_root = trim_path(get_active_root())
+        self._code_root = get_active_root()
         sys.path.append(self._code_root)
 
     @property
@@ -244,15 +244,17 @@ def get_active_root():
 
     path = get_core_args().code_root
     if path is not None:
+        path = os.path.realpath(path)
         logger.debug("Code root found in -q arg: %s" % path)
-        return path
+        return trim_path(path)
 
     try:
         path = os.environ["IRIS_CODE_ROOT"]
         if path is not None:
+            path = os.path.realpath(path)
             if os.path.exists(path):
                 logger.debug("Code root found in environment variable: %s" % path)
-                return path
+                return trim_path(path)
     except KeyError:
         logger.debug(
             "No code root found in environment variables, trying other methods."
@@ -261,10 +263,10 @@ def get_active_root():
     cmd = subprocess.run(
         "pipenv --where", shell=True, stdout=subprocess.PIPE, timeout=5
     )
-    path = cmd.stdout.decode("utf-8").strip()
+    path = os.path.realpath(cmd.stdout.decode("utf-8").strip())
     if os.path.exists(path):
         logger.debug("Code root set using location of Pipfile: %s" % path)
-        return path
+        return trim_path(path)
     else:
         path_warning()
         return os.path.realpath(os.path.dirname(__file__) + "/../..")
