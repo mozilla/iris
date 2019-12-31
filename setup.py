@@ -14,7 +14,7 @@ INSTALL_REQUIRES = [
     "image==1.5.27",
     "flaky==3.6.1",
     "funcy==1.13",
-    "gitpython==3.0.2",
+    "gitpython==3.0.5",
     "more-itertools==7.2.0",
     "mozdownload==1.26",
     "mozinfo==1.1.0",
