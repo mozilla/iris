@@ -15,7 +15,7 @@ INSTALL_REQUIRES = [
     "flaky==3.6.1",
     "funcy==1.13",
     "gitpython==3.0.5",
-    "more-itertools==7.2.0",
+    "more-itertools==8.0.2",
     "mozdownload==1.26",
     "mozinfo==1.1.0",
     "mozinstall==2.0.0",
@@ -26,13 +26,13 @@ INSTALL_REQUIRES = [
     "opencv-python==4.1.1.26",
     "packaging==19.1",
     "psutil==5.6.3",
-    "pyautogui==0.9.47",
+    "pyautogui==0.9.48",
     "pygithub==1.43.8",
-    "pynput==1.4.2",
+    "pynput==1.5.2",
     "pyperclip==1.7.0",
     "pytesseract==0.3.0",
     "pytest==5.1.2",
-    "python-dateutil==2.8.0",
+    "python-dateutil==2.8.1",
 ]
 
 if platform.system() == "Linux":
