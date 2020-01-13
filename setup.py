@@ -28,7 +28,7 @@ INSTALL_REQUIRES = [
     "psutil==5.6.3",
     "pyautogui==0.9.48",
     "pygithub==1.43.8",
-    "pynput==1.5.2",
+    "pynput==1.6.5",
     "pyperclip==1.7.0",
     "pytesseract==0.3.0",
     "pytest==5.1.2",
