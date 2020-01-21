@@ -9,7 +9,7 @@ coloredlogs = "==10.0"
 image = "==1.5.27"
 iris = {path = ".",editable = true}
 flaky = "==3.6.1"
-funcy = "==1.13"
+funcy = "==1.14"
 gitpython = "==3.0.5"
 more-itertools = "==8.0.2"
 mozdownload = "==1.26"
