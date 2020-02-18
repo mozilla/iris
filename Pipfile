@@ -5,7 +5,7 @@ verify_ssl = true
 
 [packages]
 bugzilla = "==1.0.0"
-coloredlogs = "==10.0"
+coloredlogs = "==14.0"
 image = "==1.5.27"
 iris = {path = ".",editable = true}
 flaky = "==3.6.1"
